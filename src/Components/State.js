@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 
+function getRandomAnimal() {
+  const animal = ["cow", "dog", "fox", "cat", "lion", "tiger"];
+  return animal[Math.floor(Math.random() * animal.length)];
+}
 function State() {
-  const [animal, setAnimal] = useState(0);
+  const [animal, setAnimal] = useState([]);
   const handleClick = () => {
-    setAnimal(animal + 1);
+    setAnimal([...animal, getRandomAnimal()]);
   };
   return (
     <>
