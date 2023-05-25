@@ -1,6 +1,6 @@
 import Card from "react-bootstrap/Card";
 import "font-awesome/css/font-awesome.min.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import BookEdit from "./BookEdit";
 
 function BookShow({ book, id, editBook, deleteBook }) {
@@ -12,10 +12,7 @@ function BookShow({ book, id, editBook, deleteBook }) {
 
   const editHandler = () => {
     setShowEdit(!showEdit);
-    // editBook(title, id);
   };
-
-  useEffect(() => {}, [showEdit]);
 
   let content = <h3>{book.title}</h3>;
 

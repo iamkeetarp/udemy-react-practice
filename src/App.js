@@ -1,7 +1,9 @@
 import "./App.css";
 import BookCreate from "./Components/BookProj/BookCreate";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BookList from "./Components/BookProj/BookList";
+import axios from "axios";
+
 // import Child from "./Components/Child";
 // import StateExample from "./Components/State";
 // import SearchBar from "./Components/SearchBar";
@@ -17,7 +19,11 @@ function App() {
 
   const [books, setBooks] = useState([]);
 
-  const createBook = (title, id) => {
+  const getApiBooks = async () => {
+    const response = await axios.get("http://localhost:3001/books");
+    setBooks(response.data);
+  };
+  const createBook = async (title, id) => {
     //BAD CODE !
     // books.push({ id: 123, title: title });
     // console.log(books);
@@ -25,21 +31,37 @@ function App() {
 
     //Good Code
 
-    const updatedBooks = [...books, { id: id, title: title }];
+    // const updatedBooks = [...books, { id: id, title: title }];
+    // setBooks(updatedBooks);
+    const response = await axios.post("http://localhost:3001/books", {
+      title,
+      id,
+    });
+
+    const updatedBooks = [...books, response.data];
     setBooks(updatedBooks);
   };
 
-  const editBook = (title, id) => {
+  useEffect(() => {
+    getApiBooks();
+  }, []);
+
+  const editBook = async (newtitle, id) => {
+    const response = await axios.put(`http://localhost:3001/books/${id}`, {
+      title: newtitle,
+    });
+
     const updatedBooks = books.map((book) => {
       if (book.id === id) {
-        return { ...book, title: title };
+        return { ...book, title: newtitle };
       }
       return book;
     });
     setBooks(updatedBooks);
   };
 
-  const deleteBook = (id) => {
+  const deleteBook = async (id) => {
+    const response = await axios.delete(`http://localhost:3001/books/${id}`);
     const updatedBooks = books.filter((book) => {
       return book.id !== id;
     });
