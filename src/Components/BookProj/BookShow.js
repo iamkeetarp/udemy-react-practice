@@ -1,9 +1,11 @@
 import Card from "react-bootstrap/Card";
 import "font-awesome/css/font-awesome.min.css";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import BookEdit from "./BookEdit";
+import BooksContext from "../../context/books";
 
 function BookShow({ book, id, editBook, deleteBook }) {
+  const { count, incrementCount } = useContext(BooksContext);
   const [showEdit, setShowEdit] = useState(false);
 
   const deleteHandler = () => {
@@ -21,7 +23,11 @@ function BookShow({ book, id, editBook, deleteBook }) {
   }
   return (
     <>
-      <Card style={{ width: "12rem" }}>
+      <Card style={{ width: "10rem" }}>
+        {count}
+        <button className="btn btn-success" onClick={incrementCount}>
+          Increment Count
+        </button>
         <div>
           <i
             style={{ cursor: "pointer", color: "blue" }}
